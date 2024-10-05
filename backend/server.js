@@ -21,6 +21,7 @@ app.get("/simulate-ddos", (req, res) => {
       console.error(`exec error: ${error}`);
       return res.status(500).send("Error during DDoS simulation");
     }
+    console.log(`Data received:\n${stdout}`);
     res.send(stdout); // Send back the results of the DDoS simulation
   });
 });
