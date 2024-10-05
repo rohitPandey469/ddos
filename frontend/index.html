@@ -108,24 +108,28 @@
       
       const baseURL = "http://localhost:3000";
       function startAttack() {
+        console.log("Starting DDoS attack simulation...");
         document.getElementById("ddosButton").disabled = true;
         document.getElementById("statusMessage").innerHTML =
           "Simulating DDoS attack...";
 
         // Make an API request to the backend to trigger the attack
         fetch(`${baseURL}/simulate-ddos`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              document.getElementById("statusMessage").innerHTML =
-                "Attack started. Monitoring protection...";
-            } else {
-              document.getElementById("statusMessage").innerHTML =
-                "Failed to start attack.";
+          .then((response) => {
+            console.log("API response received:", response);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
             }
+            return response.text(); // Expecting text, not JSON
+          })
+          .then((data) => {
+            console.log("Data received:", data); // Log the full response data
+            document.getElementById("statusMessage").innerHTML =
+              "Attack started. Monitoring protection...";
             document.getElementById("ddosButton").disabled = false;
           })
           .catch((err) => {
+            console.error("Error during DDoS simulation:", err); // Log the error details
             document.getElementById("statusMessage").innerHTML =
               "Error starting attack.";
             document.getElementById("ddosButton").disabled = false;
