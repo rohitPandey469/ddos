@@ -15,8 +15,9 @@ app.use((req, res, next) => {
 });
 
 // Endpoint for the DDoS attack simulation
+// 172.16.10.144
 app.get("/simulate-ddos", (req, res) => {
-  exec("ab -n 1000000 -c 10000 http://localhost/", (error, stdout, stderr) => {
+  exec("ab -n 1000000 -c 10000 172.16.10.144", (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return res.status(500).send("Error during DDoS simulation");
