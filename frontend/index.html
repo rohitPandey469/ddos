@@ -105,7 +105,7 @@
         trafficCircle.style.backgroundColor = trafficColor;
         trafficStatusText.innerHTML = `Traffic Level: ${trafficLevel}`;
       }
-      
+
       const baseURL = "http://localhost:3000";
       function startAttack() {
         console.log("Starting DDoS attack simulation...");
@@ -120,12 +120,15 @@
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.text(); // Expecting text, not JSON
+            return response.text(); // Expecting plain text (ApacheBench results)
           })
           .then((data) => {
             console.log("Data received:", data); // Log the full response data
-            document.getElementById("statusMessage").innerHTML =
-              "Attack started. Monitoring protection...";
+
+            // Display the ApacheBench output in the status message
+            document.getElementById("statusMessage").innerHTML = `
+        <pre>${data}</pre>
+      `;
             document.getElementById("ddosButton").disabled = false;
           })
           .catch((err) => {
